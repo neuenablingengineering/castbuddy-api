@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Timestamp</th>
+            <th>Value</th>
+        </tr>
+        {% for packet in data_list %}
+        <tr>
+            <th>{{packet.id}}</th>
+            <th>{{packet.timestamp}}</th>
+            <th>{{packet.value}}</th>
+        </tr>
+        {% endfor %}
+    </table>
+    
+{% endblock %}

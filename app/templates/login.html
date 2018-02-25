@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- <p>Hey Doc! We logged you in automatically</p> -->
+    <!--<a href="/index">Click Here to go back</a>'     -->
+
+    <h1>Log In</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+        
+        </p>
+        <p>
+            {{ form.password.label }} <br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+{% endblock %}

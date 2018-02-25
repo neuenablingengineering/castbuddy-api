@@ -1,0 +1,30 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Castbuddy</title>
+        {% else %}
+        <title>Castbuddy</title>
+        {% endif %}
+    </head>
+
+    <body>
+        <div>
+            <h1><a href="/index">CastBuddy</a></h1>
+            <a href="/login">login</a>    
+            <a href="/data">Show Data</a>    
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+
+        {% endif %}
+        {% endwith%}
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

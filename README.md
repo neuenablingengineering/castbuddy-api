@@ -1,3 +1,5 @@
-# API
+# README #
 
-The middle man between the UI and the database.
+### What is this repository for? ###
+
+This Repository contains the source code for the Cast Buddy web application
