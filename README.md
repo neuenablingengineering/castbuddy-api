@@ -7,8 +7,10 @@
 Install the following packages in the following order:
 
 1. Install [Python](https://wiki.python.org/moin/BeginnersGuide/Download)
+    1. On Mac, it's suggested you first install [homebrew](https://brew.sh/) and install python3 through it via `brew install python3`.
 1. Install [PIP](https://pip.pypa.io/en/stable/installing/)
-1. Install [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) (via PIP)
+    1. On Mac, it's suggested you first install [homebrew](https://brew.sh/) and install pip3 through it via `brew install pip3` (on mac, all calls to pip will be pip3 instead).
+1. Install [virtualenv](https://virtualenv.pypa.io/en/stable/installation/) via PIP.
 
 ### Environment Setup
 
