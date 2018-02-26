@@ -19,7 +19,7 @@ class Chip(db.Model):
 
 class DataEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    chip_id = db.Column(db.Integer, nullable=False)
+    chip_id = db.Column(db.String(45), nullable=False)
     timestamp = db.Column(db.String(45), nullable=False)
 
     s0 = db.Column(db.Integer, nullable=False)

@@ -10,11 +10,63 @@ class Packet:
         self.timestamp = timestamp
         self.value = value
 
+# Hologram webhook
+@app.route('/api/holohook', methods=['POST', 'GET'])
+def holohook():
+    if request.method == 'POST':
+        from app.database import db, DataEntry
+        msg = request.get_json()
+        print(msg)
+        data = msg['d']
+        device = msg['c']
+        for entry in data :
+            newDataEntry = DataEntry( chip_id=device,\
+                timestamp=entry['t'], \
+                s0=entry['v'][0], \
+                s1=entry['v'][1], \
+                s2=entry['v'][2], \
+                s3=entry['v'][3], \
+                s4=entry['v'][4], \
+                s5=entry['v'][5], \
+                s6=entry['v'][6], \
+                s7=entry['v'][7], \
+                s8=entry['v'][8], \
+                s9=entry['v'][9], \
+                s10=entry['v'][10], \
+                s11=entry['v'][11], \
+                s12=entry['v'][12], \
+                s13=entry['v'][13], \
+                s14=entry['v'][14], \
+                s15=entry['v'][15]) 
+            db.session.add(newDataEntry)
+            db.session.commit()
+        return '', 200
+    else:
+        abort(400)
+
+# Manual data insertion
+@app.route('/api/data/inserttest', methods=['GET', 'POST'])
+def holohookInsertTest():
+    import datetime
+    from app.database import db, DataEntry
+    from random import randint
+    ts = str(datetime.datetime.utcnow())
+    chip_id = 'NOT_CONNECTED_YET'
+    testData = DataEntry(chip_id=chip_id, timestamp=ts, sensors=(randint(0,255) for i in range(16)))
+    db.session.add(testData)
+    db.session.commit()
+    return jsonify(repr(testData))
+
+# Get all entries
+@app.route('/api/data/select/all')
+def dataSelectTest():
+    from app.database import DataEntry
+    return jsonify([repr(o) for o in DataEntry.query.all()])
+
 @app.route('/')
 @app.route('/index')
 def index():
     return render_template('index.html', title='Home', logged_out= not logged_in)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -48,38 +100,6 @@ def data():
 
     return render_template('data.html', title='Data', data_list=data)
 
-
-@app.route('/holohook', methods=['POST', 'GET'])
-def holohook():
-    if request.method == 'POST':
-        from app.database import db, DataEntry
-        print(request.json)
-        msg_contents = request.json
-        for entry in msg_contents["d"] :
-            newDataEntry = DataEntry( chip_id=msg_contents["c"],\
-                timestamp=entry["t"], \
-                s0=entry["v"][0], \
-                s1=entry["v"][1], \
-                s2=entry["v"][2], \
-                s3=entry["v"][3], \
-                s4=entry["v"][4], \
-                s5=entry["v"][5], \
-                s6=entry["v"][6], \
-                s7=entry["v"][7], \
-                s8=entry["v"][8], \
-                s9=entry["v"][9], \
-                s10=entry["v"][10], \
-                s11=entry["v"][11], \
-                s12=entry["v"][12], \
-                s13=entry["v"][13], \
-                s14=entry["v"][14], \
-                s15=entry["v"][15]) 
-            db.session.add(newDataEntry)
-            db.session.commit()
-        return '', 200
-    else:
-        abort(400)
-
 @app.route('/test/chip/insert', methods=['GET', 'POST'])
 def insertChipTest():
     import random
@@ -90,23 +110,6 @@ def insertChipTest():
     db.session.add(testChip)
     db.session.commit()
     return jsonify(repr(testChip))
-
-@app.route('/test/dataentry/insert', methods=['GET', 'POST'])
-def holohookInsertTest():
-    import datetime
-    from app.database import db, DataEntry
-    from random import randint
-    ts = str(datetime.datetime.utcnow())
-    chip_id = 'NOT_CONNECTED_YET'
-    testData = DataEntry(chip_id=chip_id, timestamp=ts, sensors=(randint(0,255) for i in range(16)))
-    db.session.add(testData)
-    db.session.commit()
-    return jsonify(repr(testData))
-
-@app.route('/test/dataentry/selectall')
-def dataSelectTest():
-    from app.database import DataEntry
-    return jsonify([repr(o) for o in DataEntry.query.all()])
 
 @app.route('/test/chip/selectall')
 def chipSelectTest():
