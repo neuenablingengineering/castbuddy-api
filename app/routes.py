@@ -54,27 +54,28 @@ def holohook():
     if request.method == 'POST':
         from app.database import db, DataEntry
         print(request.json)
-        entry = request.json
-        newDataEntry = DataEntry( chip_id=entry["cid"],\
-            timestamp=entry["ts"], \
-            s0=entry["s0"], \
-            s1=entry["s1"], \
-            s2=entry["s2"], \
-            s3=entry["s3"], \
-            s4=entry["s4"], \
-            s5=entry["s5"], \
-            s6=entry["s6"], \
-            s7=entry["s7"], \
-            s8=entry["s8"], \
-            s9=entry["s9"], \
-            s10=entry["s10"], \
-            s11=entry["s11"], \
-            s12=entry["s12"], \
-            s13=entry["s13"], \
-            s14=entry["s14"], \
-            s15=entry["s15"]) 
-        db.session.add(newDataEntry)
-        db.session.commit()
+        msg_contents = request.json
+        for entry in msg_contents["d"] :
+            newDataEntry = DataEntry( chip_id=msg_contents["c"],\
+                timestamp=entry["t"], \
+                s0=entry["v"][0], \
+                s1=entry["v"][1], \
+                s2=entry["v"][2], \
+                s3=entry["v"][3], \
+                s4=entry["v"][4], \
+                s5=entry["v"][5], \
+                s6=entry["v"][6], \
+                s7=entry["v"][7], \
+                s8=entry["v"][8], \
+                s9=entry["v"][9], \
+                s10=entry["v"][10], \
+                s11=entry["v"][11], \
+                s12=entry["v"][12], \
+                s13=entry["v"][13], \
+                s14=entry["v"][14], \
+                s15=entry["v"][15]) 
+            db.session.add(newDataEntry)
+            db.session.commit()
         return '', 200
     else:
         abort(400)
