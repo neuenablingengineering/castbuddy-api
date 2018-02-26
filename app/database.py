@@ -9,8 +9,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+app.config['DB_USERNA
 
 db = SQLAlchemy(app)
 
-# A user is generally a physician who will be viewing the 
-# data of her patients
+# A user is generally a physician who will be viewing the data of their patients
 class Chip(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chip_name = db.Column(db.String(80), unique=True, nullable=False)

@@ -52,7 +52,6 @@ def data():
 @app.route('/holohook', methods=['POST', 'GET'])
 def holohook():
     if request.method == 'POST':
-        import json
         from app.database import db, DataEntry
         print(request.json)
         entry = request.json
@@ -77,7 +76,6 @@ def holohook():
         db.session.add(newDataEntry)
         db.session.commit()
         return '', 200
-        
     else:
         abort(400)
 
