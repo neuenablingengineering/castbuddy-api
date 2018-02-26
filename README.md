@@ -4,6 +4,8 @@
 
 Development can be done in a native python environment, or utilizing a virtual environment. The latter is suggested just to keep your workspace clean.
 
+Regardless of whether you develop in the venv, you must keep it maintained though, meaning if you add any packages to the project via pip, make sure you run `pip freeze > requirements.txt` in the repo root, and include requirements.txt in a commit and push. This is because we currently deploy to AWS Elastic Beanstalk, which uses the requirements.txt file to build the environment within which the app runs.
+
 ### Required Packages
 
 Install the following packages in the following order:
