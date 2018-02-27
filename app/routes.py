@@ -57,6 +57,15 @@ def holohookInsertTest():
     db.session.commit()
     return jsonify(repr(testData))
 
+# Get specific entry
+@app.route('/api/data/select')
+def dataSelect():
+    chip=request.args['chip']
+    start=request.args['start']
+    end=request.args['end']
+    print("Chip: " + str(chip) + ", Start: " + str(start) + ", End: " + str(end))
+    return '', 200
+
 # Get all entries
 @app.route('/api/data/select/all')
 def dataSelectTest():
