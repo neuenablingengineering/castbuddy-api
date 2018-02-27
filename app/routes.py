@@ -44,6 +44,22 @@ def holohook():
     else:
         abort(400)
 
+# Get range of entries
+@app.route('/api/data/select')
+def dataSelect():
+    from app.database import DataEntry
+    chip=request.args['chip']
+    start=request.args['start']
+    end=request.args['end']
+    recs = DataEntry.query.filter(DataEntry.chip_id==chip, DataEntry.timestamp >= start, DataEntry.timestamp <= end)
+    return jsonify([o.toDict() for o in recs])
+
+# Get all entries
+@app.route('/api/data/select/all')
+def dataSelectTest():
+    from app.database import DataEntry
+    return jsonify([repr(o) for o in DataEntry.query.all()])
+
 # Manual data insertion
 @app.route('/api/data/inserttest', methods=['GET', 'POST'])
 def holohookInsertTest():
@@ -56,21 +72,6 @@ def holohookInsertTest():
     db.session.add(testData)
     db.session.commit()
     return jsonify(repr(testData))
-
-# Get specific entry
-@app.route('/api/data/select')
-def dataSelect():
-    chip=request.args['chip']
-    start=request.args['start']
-    end=request.args['end']
-    print("Chip: " + str(chip) + ", Start: " + str(start) + ", End: " + str(end))
-    return '', 200
-
-# Get all entries
-@app.route('/api/data/select/all')
-def dataSelectTest():
-    from app.database import DataEntry
-    return jsonify([repr(o) for o in DataEntry.query.all()])
 
 @app.route('/')
 @app.route('/index')
