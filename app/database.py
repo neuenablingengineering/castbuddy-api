@@ -48,4 +48,4 @@ class DataEntry(db.Model):
         return json.dumps(self.toDict())
     
     def toDict(self):
-        return {"t":self.timestamp,"v":[self.s0, self.s1, self.s2, self.s3, self.s4, self.s5, self.s6, self.s7, self.s7, self.s8, self.s9, self.s10, self.s11, self.s12, self.s13, self.s14, self.s15]}
+        return {"t":self.timestamp,"v":[self.s0, self.s1, self.s2, self.s3, self.s4, self.s5, self.s6, self.s7, self.s8, self.s9, self.s10, self.s11, self.s12, self.s13, self.s14, self.s15]}
