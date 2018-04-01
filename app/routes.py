@@ -1,4 +1,5 @@
 from app import app
+from app import pusher
 from flask import render_template, flash, redirect, request, abort, jsonify
 from app.forms import LoginForm
 
@@ -14,7 +15,8 @@ class Packet:
 @app.route('/api/holohook', methods=['POST', 'GET'])
 def holohook():
     if request.method == 'POST':
-        from app.database import db, DataEntry
+        from app.database import db, DataEntry, Chip
+
         msg = request.get_json()
         print(msg)
         data = msg['d']
@@ -37,12 +39,18 @@ def holohook():
                 s12=entry['v'][12], \
                 s13=entry['v'][13], \
                 s14=entry['v'][14], \
-                s15=entry['v'][15]) 
+                s15=entry['v'][15])
             db.session.add(newDataEntry)
             db.session.commit()
         return '', 200
     else:
         abort(400)
+
+@app.route('/api/chip/select/all')
+def chipSelectTest():
+    from flask import jsonify
+    from app.database import Chip
+    return jsonify([repr(o) for o in Chip.query.all()])
 
 # Get range of entries
 @app.route('/api/data/select')
@@ -99,7 +107,7 @@ def data():
 
     my_path = getcwd() + "/app/data"
     file_names = [f for f in listdir(my_path) if isfile(join(my_path, f))]
-    
+
     for f_name in file_names:
         split_name = f_name.split('__')
         p_id = split_name[0]
@@ -110,6 +118,7 @@ def data():
 
     return render_template('data.html', title='Data', data_list=data)
 
+"""
 @app.route('/test/chip/insert', methods=['GET', 'POST'])
 def insertChipTest():
     import random
@@ -120,9 +129,4 @@ def insertChipTest():
     db.session.add(testChip)
     db.session.commit()
     return jsonify(repr(testChip))
-
-@app.route('/test/chip/selectall')
-def chipSelectTest():
-    from flask import jsonify
-    from app.database import Chip
-    return jsonify([repr(o) for o in Chip.query.all()])
+"""
