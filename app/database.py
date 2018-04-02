@@ -16,7 +16,7 @@ class Chip(db.Model):
     chip_name = db.Column(db.String(80), unique=True, nullable=False)
 
     def __repr__(self):
-        return '<Chip %r>' % self.chip_name
+        return self.chip_name
 
 class DataEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
