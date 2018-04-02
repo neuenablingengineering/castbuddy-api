@@ -15,7 +15,7 @@ class Packet:
 @app.route('/api/holohook', methods=['POST', 'GET'])
 def holohook():
     if request.method == 'POST':
-        from app.database import db, DataEntry, Chip
+        from app.database import db, DataEntry
 
         msg = request.get_json()
         print(msg)
@@ -58,7 +58,6 @@ def holohook():
 
 @app.route('/api/chip/select/all')
 def chipSelectTest():
-    from flask import jsonify
     from app.database import Chip
     return jsonify([repr(o) for o in Chip.query.all()])
 
@@ -66,9 +65,9 @@ def chipSelectTest():
 @app.route('/api/data/select')
 def dataSelect():
     from app.database import DataEntry
-    chip=request.args['chip']
-    start=request.args['start']
-    end=request.args['end']
+    chip = request.args['chip']
+    start = request.args['start']
+    end = request.args['end']
     recs = DataEntry.query.filter(DataEntry.chip_id==chip, DataEntry.timestamp >= start, DataEntry.timestamp <= end)
     return jsonify([o.toDict() for o in recs])
 
@@ -86,7 +85,7 @@ def holohookInsertTest():
     from random import randint
     ts = str(datetime.datetime.utcnow())
     chip_id = 'NOT_CONNECTED_YET'
-    testData = DataEntry(chip_id=chip_id, timestamp=ts, sensors=(randint(0,255) for i in range(16)))
+    testData = DataEntry(chip_id=chip_id, timestamp=ts, sensors=(randint(0, 255) for i in range(16)))
     db.session.add(testData)
     db.session.commit()
     return jsonify(repr(testData))
@@ -94,7 +93,7 @@ def holohookInsertTest():
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Home', logged_out= not logged_in)
+    return render_template('index.html', title='Home', logged_out=not logged_in)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
