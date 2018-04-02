@@ -1,5 +1,5 @@
 from app import app
-from app import pusher
+from app import pusher_client
 from flask import render_template, flash, redirect, request, abort, jsonify
 from app.forms import LoginForm
 
@@ -21,6 +21,13 @@ def holohook():
         print(msg)
         data = msg['d']
         device = msg['c']
+        """
+        if Chip.query.filter(chip_name == device) == []:
+            # Add the chip
+            newChip = Chip(chip_name=device)
+            db.session.add(newChip)
+        """
+
         for entry in data :
             newDataEntry = DataEntry( chip_id=device,\
                 timestamp=entry['t'], \
@@ -42,6 +49,9 @@ def holohook():
                 s15=entry['v'][15])
             db.session.add(newDataEntry)
             db.session.commit()
+
+            pusher_client.trigger('data', 'new-data', {'message':''})
+
         return '', 200
     else:
         abort(400)
