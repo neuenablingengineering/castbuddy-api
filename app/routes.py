@@ -1,7 +1,7 @@
 from app import app
-from app import pusher_client
 from flask import render_template, flash, redirect, request, abort, jsonify
 from app.forms import LoginForm
+import pusher
 
 logged_in = False
 
@@ -10,6 +10,13 @@ class Packet:
         self.id = id
         self.timestamp = timestamp
         self.value = value
+
+pusher_client = pusher.Pusher(
+    app_id='499466',
+    key='d9cc11a3fe140178060c',
+    secret='ed39d899514a791f6c7c',
+    ssl=True
+)
 
 # Hologram webhook
 @app.route('/api/holohook', methods=['POST', 'GET'])
