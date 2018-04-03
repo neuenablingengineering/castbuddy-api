@@ -69,7 +69,7 @@ Deployment can be done in a number of ways according to [Flask's documentation](
 1. `git clone` the repository on the server.
 1. Follow the steps in [Environment Setup](environment-setup), this time using requirements.txt.
 1. Enter the virtual environment.
-1. Serve the app with `gunicorn app:app -w 4`. This will serve on the default port of 8000.
+1. Serve the app with `gunicorn app:app -w 4 > api.log 2>&1 &`. This will serve on the default port of 8000.
 1. Use a reverse proxy like nginx to link an external port/address to localhost:8000.
 
 To takedown the app, run `pkill gunicorn`.
