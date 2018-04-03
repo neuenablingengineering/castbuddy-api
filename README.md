@@ -44,3 +44,15 @@ Depending on your IDE, when you open the project for the first time you may be p
 1. In a terminal enter the virtual environment.
 1. Run the app with `flask run`.
 1. The console should tell you your app is being served at http://127.0.0.1:5000/ (aka localhost:5000).
+
+## Deployment
+
+Deployment can be done in a number of ways according to [Flask's documentation](http://flask.pocoo.org/docs/0.12/deploying/). One of the simpler ways to deploy is with gunicorn:
+
+1. Ensure Python is installed on the deploy server.
+1. `git clone` the repository on the server.
+1. Follow the steps in [Environment Setup](environment-setup).
+1. Enter the virtual environment.
+1. Additionally install gunicorn with `pip install gunicorn`.
+1. Serve the app with `gunicorn app:app -w 4`
+1. To takedown the app, run `pkill gunicorn`
