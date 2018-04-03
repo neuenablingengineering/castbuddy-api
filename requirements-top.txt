@@ -1,0 +1,7 @@
+Flask
+Flask-cors
+Flask-WTF
+Flask-SQLAlchemy
+PyMySQL
+gunicorn
+pusher
