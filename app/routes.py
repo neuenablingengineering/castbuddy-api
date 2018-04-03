@@ -65,8 +65,9 @@ def holohook():
 
 @app.route('/api/chip/select/all')
 def chipSelectTest():
-    from app.database import Chip
-    return jsonify([repr(o) for o in Chip.query.all()])
+    from app.database import DataEntry
+    casts = DataEntry.query.with_entities(DataEntry.chip_id).distinct()
+    return jsonify([o.chip_id for o in casts])
 
 # Get range of entries
 @app.route('/api/data/select')
