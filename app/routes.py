@@ -57,7 +57,7 @@ def holohook():
             db.session.add(newDataEntry)
             db.session.commit()
 
-            pusher_client.trigger('data', 'new-data', {'message':device})
+        pusher_client.trigger('data', 'new-data', {'message':device})
 
         return '', 200
     else:
