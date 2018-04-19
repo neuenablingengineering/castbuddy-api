@@ -1,4 +1,6 @@
-# CastBuddy Data API
+# CastBuddy Back-End
+
+This is the back-end of the CastBuddy server-side software. It has an incoming REST endpoint designed for Hologram to push data into the database, and it has outgoing REST endpoints to retrieve data from the database.
 
 ## Development
 
