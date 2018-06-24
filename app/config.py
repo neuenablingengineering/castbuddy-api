@@ -1,9 +1,9 @@
-#import os
+import os
 #basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
-    DB_ENDPOINT = "castbuddydbrestore.ctdfzdsuulii.us-east-1.rds.amazonaws.com"
+    DB_ENDPOINT = os.getenv('DB_ROOT')
     DB_PORT = "3306"
-    DB_NAME = "ebdb"
-    DB_USERNAME = "josepham"
-    DB_PASSWORD = "python99"
+    DB_NAME = "castbuddy"
+    DB_USERNAME = "cb_admin"
+    DB_PASSWORD = os.getenv('CB_PASS')
