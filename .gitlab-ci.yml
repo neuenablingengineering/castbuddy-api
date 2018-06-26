@@ -1,8 +1,8 @@
-deploy review:
+deploy feature:
   stage: deploy
+  image: wingrunr21/alpine-heroku-cli
   script:
-    - curl https://cli-assets.heroku.com/install.sh | sh
-    - ./heroku_create.sh
+    - ./heroku_create_feature.sh
     - heroku config:set -a cbapi-$CI_ENVIRONMENT_SLUG DB_ROOT=$DB_ROOT CB_PASS=$CB_PASS > /dev/null
     - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/cbapi-$CI_ENVIRONMENT_SLUG.git HEAD:master
   environment:
@@ -11,4 +11,16 @@ deploy review:
   only:
     - branches
   except:
+    - master
+
+deploy staging:
+  stage: deploy
+  image: wingrunr21/alpine-heroku-cli
+  script:
+    - heroku config:set -a cbapi-staging DB_ROOT=$DB_ROOT CB_PASS=$CB_PASS > /dev/null
+    - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/cbapi-staging.git HEAD:master
+  environment:
+    name: staging
+    url: https://cbapi-staging.herokuapp.com/
+  only:
     - master
