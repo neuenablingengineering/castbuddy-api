@@ -1,13 +1,14 @@
 deploy review:
   stage: deploy
   script:
-    - git show-ref
     - curl https://cli-assets.heroku.com/install.sh | sh
-    - heroku create cbapi-$CI_ENVIRONMENT_SLUG
+    - ./heroku_create.sh
     - heroku config:set DB_ROOT=$DB_ROOT CB_PASS=$CB_PASS > /dev/null
-    - git push heroku $CI_COMMIT_REF_NAME:master
+    - git push heroku
   environment:
     name: feature/$CI_COMMIT_REF_NAME
     url: https://cbapi-$CI_ENVIRONMENT_SLUG.heroku.com/
+  only:
+    - branches
   except:
     - master
