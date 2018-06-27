@@ -1,3 +1,4 @@
+# Dynamically created deployments
 deploy feature:
   stage: deploy
   image:
@@ -5,18 +6,28 @@ deploy feature:
     entrypoint: ["/bin/sh", "-c"]
   script:
     - ./heroku_create_feature.sh
-    - git show-ref
-    - git ls-remote
-    - git remote -v
     - heroku config:set -a cbapi-$CI_ENVIRONMENT_SLUG DB_ROOT=$DB_ROOT CB_PASS=$CB_PASS > /dev/null
-    - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/cbapi-staging.git HEAD:refs/heads/master
+    - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/cbapi-staging.git HEAD:refs/heads/master # source for this little trick: https://stackoverflow.com/questions/28417845/pushing-a-large-github-repo-fails-with-unable-to-push-to-unqualified-destinatio
   environment:
     name: feature/$CI_COMMIT_REF_NAME
     url: https://cbapi-$CI_ENVIRONMENT_SLUG.herokuapp.com/
+    on_stop: kill feature
   only:
     - branches
   except:
     - master
+
+# Ability to close feature environments once they've been merged
+close feature:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - heroku apps:destroy -a cbapi-$CI_ENVIRONMENT_SLUG --confirm cbapi-$CI_ENVIRONMENT_SLUG
+  when: manual
+  environment:
+    name: feature/$CI_COMMIT_REF_NAME
+    action: stop
 
 deploy staging:
   stage: deploy
@@ -25,7 +36,7 @@ deploy staging:
     entrypoint: ["/bin/sh", "-c"]
   script:
     - heroku config:set -a cbapi-staging DB_ROOT=$DB_ROOT CB_PASS=$CB_PASS > /dev/null
-    - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/cbapi-staging.git HEAD:master
+    - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/cbapi-staging.git HEAD:refs/heads/master
   environment:
     name: staging
     url: https://cbapi-staging.herokuapp.com/
