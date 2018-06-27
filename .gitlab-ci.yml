@@ -9,7 +9,7 @@ deploy feature:
     - git ls-remote
     - git remote -v
     - heroku config:set -a cbapi-$CI_ENVIRONMENT_SLUG DB_ROOT=$DB_ROOT CB_PASS=$CB_PASS > /dev/null
-    - git push heroku HEAD:refs/heads/master
+    - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/cbapi-staging.git HEAD:refs/heads/master
   environment:
     name: feature/$CI_COMMIT_REF_NAME
     url: https://cbapi-$CI_ENVIRONMENT_SLUG.herokuapp.com/
@@ -25,7 +25,7 @@ deploy staging:
     entrypoint: ["/bin/sh", "-c"]
   script:
     - heroku config:set -a cbapi-staging DB_ROOT=$DB_ROOT CB_PASS=$CB_PASS > /dev/null
-    - git push -u https://heroku:$HEROKU_API_KEY@git.heroku.com/cbapi-staging.git HEAD:master
+    - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/cbapi-staging.git HEAD:master
   environment:
     name: staging
     url: https://cbapi-staging.herokuapp.com/
