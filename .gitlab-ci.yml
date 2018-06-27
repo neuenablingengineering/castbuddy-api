@@ -6,8 +6,10 @@ deploy feature:
   script:
     - ./heroku_create_feature.sh
     - git show-ref
+    - git ls-remote
+    - git remote -v
     - heroku config:set -a cbapi-$CI_ENVIRONMENT_SLUG DB_ROOT=$DB_ROOT CB_PASS=$CB_PASS > /dev/null
-    - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/cbapi-$CI_ENVIRONMENT_SLUG.git HEAD:refs/head/master
+    - git push heroku HEAD:refs/heads/master
   environment:
     name: feature/$CI_COMMIT_REF_NAME
     url: https://cbapi-$CI_ENVIRONMENT_SLUG.herokuapp.com/
