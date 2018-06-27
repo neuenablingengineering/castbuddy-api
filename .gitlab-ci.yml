@@ -1,6 +1,6 @@
 deploy feature:
   stage: deploy
-  image: wingrunr21/alpine-heroku-cli
+  image: faucherb94/heroku-deployer
   script:
     - ./heroku_create_feature.sh
     - heroku config:set -a cbapi-$CI_ENVIRONMENT_SLUG DB_ROOT=$DB_ROOT CB_PASS=$CB_PASS > /dev/null
@@ -15,7 +15,7 @@ deploy feature:
 
 deploy staging:
   stage: deploy
-  image: wingrunr21/alpine-heroku-cli
+  image: faucherb94/heroku-deployer
   script:
     - heroku config:set -a cbapi-staging DB_ROOT=$DB_ROOT CB_PASS=$CB_PASS > /dev/null
     - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/cbapi-staging.git HEAD:master

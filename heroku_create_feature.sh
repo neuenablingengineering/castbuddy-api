@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 heroku create cbapi-$CI_ENVIRONMENT_SLUG
 
