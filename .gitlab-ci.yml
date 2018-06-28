@@ -21,6 +21,9 @@ deploy feature:
 # Ability to close feature environments once they've been merged
 close feature:
   stage: deploy
+  image:
+    name: faucherb94/heroku-deployer
+    entrypoint: ["/bin/sh", "-c"]
   variables:
     GIT_STRATEGY: none
   script:
