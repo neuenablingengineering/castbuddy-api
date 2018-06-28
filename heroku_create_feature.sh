@@ -7,4 +7,5 @@ heroku create cbapi-$CI_ENVIRONMENT_SLUG
 #  heroku git:remote --app=cbapi-$CI_ENVIRONMENT_SLUG
 #fi
 
+# Force exit 0 in case feature has already been deployed to heroku
 exit 0
