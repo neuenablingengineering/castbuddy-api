@@ -1,6 +1,6 @@
 #!/bin/sh
 
-heroku create cbapi-$BITBUCKET_BRANCH
+heroku create cbapi-feature-$BITBUCKET_BRANCH
 
 # if doesn't succeed, manually add git remote
 #if [ $? -ne 0 ]; then
