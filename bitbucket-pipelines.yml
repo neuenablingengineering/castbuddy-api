@@ -1,14 +1,16 @@
-# This is a sample build configuration for Python.
-# Check our guides at https://confluence.atlassian.com/x/x4UWN for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
-image: python:3.5.1
-
 pipelines:
   default:
     - step:
-        caches:
-          - pip
-        script: # Modify the commands below to build your repository.
-          - pip install -r requirements.txt
+        name: deploy-feature
+        image: faucherb94/heroku-deployer
+        deployment: test
+        script:
+          - ./bb_heroku_create_feature.sh
+          - heroku config:set -a cbapi-$BITBUCKET_BRANCH DB_ROOT=$DB_ROOT CB_PASS=$CB_PASS > /dev/null
+          - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/cbapi-$BITBUCKET_BRANCH.git HEAD:master
+  branches:
+    master:
+      - step:
+          name: deploy-staging
+          image: faucherb94/heroku-deployer
+          deployment: staging
