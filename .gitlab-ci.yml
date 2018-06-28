@@ -32,6 +32,10 @@ close feature:
   environment:
     name: feature/$CI_COMMIT_REF_NAME
     action: stop
+  only:
+    - branches
+  except:
+    - master
 
 deploy staging:
   stage: deploy
