@@ -2,6 +2,16 @@
 
 This is the back-end of the CastBuddy server-side software. It has an incoming REST endpoint designed for Hologram to push data into the database, and it has outgoing REST endpoints to retrieve data from the database.
 
+## Database Configuration
+
+In all cases of this app running, it requires access to a MySQL database. Prior to any development or deployment, ensure that:
+
+1. Such a database exists with a schema called castbuddy.
+1. The database must have the username cb_admin configured with read and write access to the castbuddy schema.
+1. On all development and deployment servers, configure the following environment variables:
+  1. `DB_ROOT` set to the URI of the database, e.g. `database.rds.amazonaws.com`
+  1. `CB_PASS` set to cb_admin's password for the database
+
 ## Development
 
 ### Required Packages
